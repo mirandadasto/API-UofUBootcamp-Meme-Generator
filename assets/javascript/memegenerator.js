@@ -1,41 +1,39 @@
 var favoriteThingsArray = ["Aerial Silks", "Aerial Lyra", "Aerial Hammock", "Contortion", "Dogs", "Horses", "Sound of Music", "Dancing", "Teaching"];
 
-// function displayGifInfo() 
-// {
-//     var favoriteThing = $(this).attr("data-name");
-//     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + favoriteThing + "&api_key=eIhSvDCSjLD4C68VaoHGdJOpwgTg0OtT";
+function displayGifInfo() 
+{
+    var favoriteThing = $(this).attr("data-name");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + favoriteThing + "&api_key=eIhSvDCSjLD4C68VaoHGdJOpwgTg0OtT";
 
-//     $.ajax(
-//         {
-//             url: queryURL,
-//             method: "GET"
-//         }).then(function(response)
-//         {
-//             var results = response.data;
+    $.ajax(
+        {
+            url: queryURL,
+            method: "GET"
+        }).then(function(response)
+        {
+            var results = response.data;
+            console.log(results);
+            for (var i = 0; i < results.length; i++)
+            {
+                var rating = results[i].rating;
 
-//             for (var i = 0; i < results.length; i++)
-//             {
-//                 if(results[i].rating !== "r" && results[i].rating !== "pg-13")
-//                 {
+                if(rating !== "r" && rating !== "pg-13")
+                {
+                    var favoriteThingDiv = $("<div>");
 
-//                     var favoriteThingDiv = $("<div class = 'favoriteThing'>");
+                    console.log(rating);
+                    var gifRating = $("<p>").text("Rating: " + rating);
+                    favoriteThingDiv.append(gifRating);
+
+                    console.log(results[i].images.fixed_height.url);
+                    var favoriteImage = $("<img>").attr("src", results[i].images.fixed_height.url);
+                    favoriteThingDiv.append(favoriteImage);
         
-//                     var rating = response.rating;
-        
-//                     var p = $("<p>").text("Rating: " + rating);
-        
-//                     var favoriteImage = $("<img>");
-        
-//                     favoriteImage.attr("src", results[i].images.fixed_height.url);
-        
-//                     favoriteThingDiv.append(p);
-//                     favoriteThingDiv.append(favoriteImage);
-        
-//                     $("favorite-things-view").prepend(favoriteThingDiv);
-//                 }
-//             }
-//         })
-// }
+                    $("favorite-things-view").prepend(favoriteThingDiv);
+                }
+            }
+        });
+}
 
 // Function for displaying movie data
 function renderButtons() 
@@ -61,22 +59,22 @@ function renderButtons()
     }
   }
 
-//    // This function handles events where a movie button is clicked
-//    $("#add-favorite-thing").on("click", function(event) 
-//    {
-//         event.preventDefault();
-//         // This line grabs the input from the textbox
-//         var favoriteThing = $("#favorite-Things-input").val().trim();
+   // This function handles events where a movie button is clicked
+   $("#add-favorite-thing").on("click", function(event) 
+   {
+        event.preventDefault();
+        // This line grabs the input from the textbox
+        var favoriteThing = $("#favorite-things-input").val().trim();
 
-//         // Adding movie from the textbox to our array
-//         favoriteThingsArray.push(favoriteThing);
+        // Adding movie from the textbox to our array
+        favoriteThingsArray.push(favoriteThing);
 
-//         // Calling renderButtons which handles the processing of our movie array
-//         renderButtons();
-//   });
+        // Calling renderButtons which handles the processing of our movie array
+        renderButtons();
+  });
 
   // Adding a click event listener to all elements with a class of "movie-btn"
-  //$(document).on("click", ".favoriteThing-btn", displayGifInfo);
+  $(document).on("click", ".favoriteThing-btn", displayGifInfo);
 
   // Calling the renderButtons function to display the intial buttons
   renderButtons();
