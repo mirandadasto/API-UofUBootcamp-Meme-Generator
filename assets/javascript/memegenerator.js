@@ -29,7 +29,7 @@ function displayGifInfo()
                     var favoriteImage = $("<img>").attr("src", results[i].images.fixed_height.url);
                     favoriteThingDiv.append(favoriteImage);
         
-                    $("favorite-things-view").prepend(favoriteThingDiv);
+                    $("#favorite-things-view").prepend(favoriteThingDiv);
                 }
             }
         });
